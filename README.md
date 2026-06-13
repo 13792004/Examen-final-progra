@@ -1,56 +1,93 @@
-# Welcome to your Expo app 👋
+# TareasApp
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicacion movil de gestion de tareas desarrollada con **React Native** y **Expo SDK 54**. Permite crear, editar, eliminar y marcar tareas como completadas, con persistencia local mediante SQLite y notificaciones push.
 
-## Get started
+## Tecnologias utilizadas
 
-1. Install dependencies
+- [Expo SDK 54](https://docs.expo.dev/versions/v54.0.0/) — plataforma de desarrollo movil
+- [Expo Router](https://docs.expo.dev/router/introduction/) — navegacion basada en archivos
+- [expo-sqlite](https://docs.expo.dev/versions/latest/sdk/sqlite/) — base de datos local
+- [expo-notifications](https://docs.expo.dev/versions/latest/sdk/notifications/) — notificaciones push
+- [TypeScript](https://www.typescriptlang.org/) — tipado estatico
+- [React Native](https://reactnative.dev/) — framework de UI movil
 
-   ```bash
-   npm install
-   ```
+## Funcionalidades
 
-2. Start the app
+- Crear tareas con titulo y descripcion
+- Editar tareas existentes
+- Eliminar tareas con confirmacion
+- Marcar tareas como completadas (tachado visual)
+- Notificaciones instantaneas al crear o actualizar una tarea
+- Persistencia de datos con SQLite (los datos se conservan al cerrar la app)
 
-   ```bash
-   npx expo start
-   ```
+## Estructura del proyecto
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+TareasApp/
+├── app.json                        # Configuracion de la app Expo
+├── package.json                    # Dependencias del proyecto
+├── tsconfig.json                   # Configuracion de TypeScript
+├── assets/
+│   └── images/                     # Iconos y splash screen
+├── src/
+│   ├── app/
+│   │   ├── _layout.tsx             # Layout raiz con SQLiteProvider
+│   │   └── index.tsx               # Pantalla principal (CRUD de tareas)
+│   ├── components/                 # Componentes reutilizables de UI
+│   ├── constants/
+│   │   └── theme.ts                # Colores y estilos globales
+│   └── hooks/                      # Hooks personalizados
+└── scripts/
+    └── reset-project.js            # Script para reiniciar el proyecto
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Arquitectura
 
-### Other setup steps
+La app sigue una arquitectura simple de una sola pantalla:
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+- `_layout.tsx` inicializa el proveedor de SQLite y envuelve la navegacion.
+- `index.tsx` contiene toda la logica de negocio: creacion de la tabla, operaciones CRUD, notificaciones y renderizado de la lista.
 
-## Learn more
+La base de datos SQLite se crea automaticamente en el primer inicio con la siguiente tabla:
 
-To learn more about developing your project with Expo, look at the following resources:
+```sql
+CREATE TABLE IF NOT EXISTS tareas (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  titulo      TEXT    NOT NULL,
+  descripcion TEXT,
+  completada  INTEGER DEFAULT 0
+);
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Instalacion y ejecucion
 
-## Join the community
+### Requisitos
 
-Join our community of developers creating universal apps.
+- Node.js 18+
+- Expo Go 54.x instalado en el celular
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### Pasos
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/13792004/Examen-final-progra.git
+cd Examen-final-progra
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Iniciar el servidor de desarrollo
+npx expo start
+
+# 4. Escanear el codigo QR con Expo Go
+```
+
+Para ejecutar con tunnel (funciona desde cualquier red):
+
+```bash
+npx expo start --tunnel
+```
+
+## Autor
+
+Pablo Mateo
